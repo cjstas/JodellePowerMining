@@ -133,9 +133,15 @@ public class BlockBreakListener implements Listener {
 
 					// If this is set, durability will be reduced from the tool for each broken block
 					if (useDurabilityPerBlock || !player.hasPermission("powermining.highdurability")) {
-						if (curDur++ < maxDur)
-							handItem.setDurability(curDur);
-						else
+						if (curDur++ < maxDur) {
+							int useChance=0;
+							if (enchants.get(Enchantment.DURABILITY) !=null) {
+								useChance += enchants.get(Enchantment.DURABILITY);
+							}
+							if (100/(Math.pow(2, useChance))>=(int)Math.floor(Math.random()*(101))) {
+								handItem.setDurability(curDur);
+							}
+						} else
 							break;
 					}
 				}
